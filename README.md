@@ -59,7 +59,7 @@ Dzięki temu analiza koncentruje się na zestawach związanych z licencjonowanym
 
 ## Dashboard
 
-![LEGO Franchise Analysis](images/Overview 1.png)
+![LEGO Franchise Analysis](images/Overview-1.png)
 
 Dashboard został zaprojektowany w stylistyce **Cinema Dark Mode**, nawiązującej do tematyki filmowej.
 
