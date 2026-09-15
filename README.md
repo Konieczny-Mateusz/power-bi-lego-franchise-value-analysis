@@ -418,4 +418,4 @@ Najważniejszym elementem projektu jest wykorzystanie danych do sprawdzenia, czy
 ---
 
 **Mateusz**  
-*Aspiring Data Analyst | Power BI | SQL | Python | Excel*
+*Aspiring Data Analyst | Power BI | SQL | Python | Excel | R*
