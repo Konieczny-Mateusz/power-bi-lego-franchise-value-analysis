@@ -82,50 +82,50 @@ Jednym z podstawowych elementów analizy jest średnia cena zestawów LEGO.
 ```DAX
 Średnia Cena Pudełka =
 AVERAGE(fact_Lego[Retail_Price_USD])
+```
 
 Pozwala to porównywać poziom cenowy poszczególnych franczyz oraz obserwować zmiany cen w czasie.
 
-2. Cena pojedynczego klocka – Price per Piece
-
+## 2. Cena pojedynczego klocka – Price per Piece
 Jednym z najważniejszych wskaźników projektu jest Price per Piece (PPP).
 
+```DAX
 Cena za Klocka =
 DIVIDE(
     SUM(fact_Lego[Retail_Price_USD]),
     SUM(fact_Lego[Piece_Count]),
     0
 )
-
+```
 Wskaźnik pozwala porównać zestawy nie tylko pod względem ceny całkowitej, ale również pod względem ceny przypadającej na pojedynczy element.
-
 Jest to istotne, ponieważ dwa zestawy o podobnej cenie mogą znacząco różnić się liczbą elementów, a tym samym ceną pojedynczego klocka.
 
-3. Liczba elementów
-
+## 3. Liczba elementów
 Analizie podlega również liczba klocków znajdujących się w zestawach.
 
-Srednia_Liczba_Klockow =
+```DAX
+Srednia Liczba Klocków =
 AVERAGE(fact_Lego[Piece_Count])
+```
 
 Pozwala to analizować zależność:
-
 liczba klocków → cena zestawu → cena pojedynczego klocka
 
-4. Franczyza filmowa a ceny LEGO
+## 4. Franczyza filmowa a ceny LEGO
 
 Jednym z głównych założeń projektu jest sprawdzenie, czy zestawy związane z różnymi filmowymi uniwersami charakteryzują się odmiennym poziomem cenowym.
 
 Analizowane są między innymi:
 
-średnia cena zestawu,
-cena pojedynczego klocka,
-liczba elementów,
-wielkość zestawów,
-struktura oferty poszczególnych franczyz.
+- średnia cena zestawu,
+- cena pojedynczego klocka,
+- liczba elementów,
+- wielkość zestawów,
+- struktura oferty poszczególnych franczyz.
 
 Pozwala to spojrzeć na licencjonowane zestawy LEGO nie tylko jako produkty konstrukcyjne, ale również jako produkty wykorzystujące wartość i rozpoznawalność filmowej marki.
 
-5. Box Office a oferta LEGO
+## 5. Box Office a oferta LEGO
 
 Dane Box Office zostały wykorzystane jako dodatkowy wymiar analizy.
 
@@ -133,76 +133,80 @@ Celem nie jest założenie, że wysoki Box Office automatycznie powoduje wyższe
 
 Analiza sprawdza natomiast, czy można zaobserwować zależność pomiędzy:
 
-popularnością franczyzy filmowej → ofertą LEGO → ceną zestawu → ceną pojedynczego klocka
+**popularnością franczyzy filmowej → ofertą LEGO → ceną zestawu → ceną pojedynczego klocka**
 
 Pozwala to sprawdzić, czy skala i popularność danego uniwersum filmowego znajdują odzwierciedlenie w charakterystyce jego oferty LEGO.
 
-Przygotowanie danych
-Klasyfikacja franczyz
+---
+
+## Przygotowanie danych
+
+### Klasyfikacja franczyz
 
 Zestawy zostały przypisane do odpowiednich franczyz na podstawie nazw produktów.
 
-Do automatycznej klasyfikacji wykorzystano Power Query, Text.Contains oraz Comparer.OrdinalIgnoreCase.
-
+Do automatycznej klasyfikacji wykorzystano Power Query, `Text.Contains` oraz `Comparer.OrdinalIgnoreCase`.
 Przykład:
 
+```POWERQUERRY
 if Text.Contains([Title], "Star Wars", Comparer.OrdinalIgnoreCase)
 then "Star Wars"
 else if Text.Contains([Title], "Avengers", Comparer.OrdinalIgnoreCase)
     or Text.Contains([Title], "Iron Man", Comparer.OrdinalIgnoreCase)
     or Text.Contains([Title], "Thor", Comparer.OrdinalIgnoreCase)
 then "Marvel"
+```
 
 Pozwoliło to automatycznie przypisywać produkty do wspólnych kategorii franczyzowych pomimo różnic w nazwach poszczególnych zestawów.
 
 Obsługa powtarzających się nazw
-
 Niektóre zestawy LEGO występują w różnych latach pod taką samą lub bardzo podobną nazwą.
-
 Przykładem jest Millennium Falcon.
-
 Aby rozróżnić produkty wydane w różnych latach, utworzono unikalną nazwę zestawu:
 
+```DAX
 Unikalna Nazwa Zestawu =
 fact_Lego[Nazwa_Zestawu]
     & " ("
     & fact_Lego[Rok_Wydania]
     & ")"
+```
 
 Dzięki temu zestawy z różnych lat mogą być analizowane jako oddzielne produkty.
 
-Model danych
+## Model danych
 
-Projekt wykorzystuje model typu Star Schema.
+Projekt wykorzystuje model typu **Star Schema**.
 
-fact_Lego
+### fact_Lego
 
 Tabela faktów zawierająca dane dotyczące zestawów:
 
-cena detaliczna,
-liczba klocków,
-rok wydania,
-nazwa zestawu,
-franczyza.
-dim_Brands
+- cena detaliczna,
+- liczba klocków,
+- rok wydania,
+- nazwa zestawu,
+- franczyza.
+
+### dim_Brands
 
 Tabela wymiaru zawierająca informacje o franczyzach.
 
-dim_Movies
+### dim_Movies
 
 Tabela zawierająca informacje dotyczące filmów oraz wyników Box Office.
 
 Relacje zostały zbudowane w modelu:
 
-1:N, single direction
+**1:N, single direction**
 
 Model umożliwia analizę danych zarówno na poziomie pojedynczych zestawów, jak i całych franczyz.
 
-DAX
+## DAX
 
-Projekt wykorzystuje DAX zarówno do analizy danych, jak i budowy interaktywnego interfejsu raportu.
-
+Projekt wykorzystuje **DAX** zarówno do analizy danych, jak i budowy interaktywnego interfejsu raportu.
 Podstawowe miary
+```DAX
 Średnia Cena Pudełka =
 AVERAGE(fact_Lego[Retail_Price_USD])
 
@@ -213,17 +217,18 @@ DIVIDE(
     0
 )
 
-Koszt_Wszystkich_Zestawow =
+Koszt Wszystkich Zestawów =
 SUM(fact_Lego[Retail_Price_USD])
 
 Srednia_Liczba_Klockow =
 AVERAGE(fact_Lego[Piece_Count])
+```
+
 Dynamiczny UX
-
 DAX został wykorzystany również do tworzenia dynamicznych elementów interfejsu.
-
 Przykładowo, tytuły wizualizacji zmieniają się w zależności od wybranej franczyzy.
 
+```DAX
 Tytuł Tooltipa Zestawy =
 VAR WybranaMarka =
     SELECTEDVALUE(
@@ -232,9 +237,11 @@ VAR WybranaMarka =
     )
 RETURN
     "TOP 3 Największe Zestawy: " & WybranaMarka
+```
 
 Dynamiczny tytuł analizy filmów:
 
+```DAX
 Tytuł Tooltipa Filmy =
 IF(
     ISFILTERED(dim_Brands[Marka]),
@@ -242,11 +249,15 @@ IF(
         & SELECTEDVALUE(dim_Brands[Marka]),
     "Najbardziej dochodowe filmy"
 )
+```
 
 Dzięki temu użytkownik może zachować kontekst wybranej franczyzy podczas przechodzenia pomiędzy poszczególnymi poziomami analizy.
 
-Kluczowe obserwacje
-Brick Paradox
+---
+
+## Kluczowe obserwacje
+
+### Brick Paradox
 
 Cena zestawu nie zawsze rośnie proporcjonalnie do liczby znajdujących się w nim elementów.
 
@@ -254,7 +265,7 @@ Mniejsze zestawy mogą charakteryzować się stosunkowo wysoką ceną pojedyncze
 
 Z kolei większe zestawy zawierające tysiące standardowych elementów mogą mieć niższy Price per Piece.
 
-Premiumizacja i zestawy kolekcjonerskie
+### Premiumizacja i zestawy kolekcjonerskie
 
 Analiza cen w czasie wskazuje na okresy wyraźnego wzrostu cen zestawów.
 
@@ -262,87 +273,102 @@ Jednym z przykładów jest rozwój dużych, kolekcjonerskich zestawów związany
 
 Może to wskazywać na zmianę charakteru części oferty LEGO – od produktów przeznaczonych przede wszystkim do zabawy w kierunku produktów kolekcjonerskich i premium.
 
-Wartość licencji filmowej
+### Wartość licencji filmowej
 
 Zestawy związane z filmowymi franczyzami mogą charakteryzować się inną strukturą cenową niż produkty niezwiązane z konkretnym uniwersum.
 
 Szczególnie interesująca jest analiza Price per Piece, ponieważ pozwala zauważyć różnice, których nie widać przy analizowaniu wyłącznie ceny całego zestawu.
 
-Minifigure Tax
+### Minifigure Tax
 
 W niektórych małych zestawach wysoka cena pojedynczego klocka może być związana nie z liczbą elementów, ale z obecnością unikalnych minifigurek lub elementów charakterystycznych dla licencjonowanej franczyzy.
 
 Może to być przykład sytuacji, w której wartość licencji i unikalność produktu mają znaczenie dla ceny niezależnie od liczby klocków.
 
-Data Storytelling
+---
+
+## Data Storytelling
 
 Raport został zaprojektowany tak, aby użytkownik mógł przejść przez analizę na kilku poziomach:
 
-Filmowa franczyza
+**Filmowa franczyza**
 
 ↓
 
-Box Office / popularność uniwersum
+**Box Office / popularność uniwersum**
 
 ↓
 
-Oferta LEGO
+**Oferta LEGO**
 
 ↓
 
-Cena zestawu
+**Cena zestawu**
 
 ↓
 
-Liczba klocków
+**Liczba klocków**
 
 ↓
 
-Price per Piece
+**Price per Piece**
 
 Takie podejście pozwala analizować zarówno szeroki kontekst biznesowy, jak i szczegóły pojedynczych produktów.
 
-UX / Design
+---
 
-Dashboard wykorzystuje podejście Cinema Dark Mode, nawiązujące wizualnie do tematyki filmu.
+## UX / Design
+
+Dashboard wykorzystuje podejście **Cinema Dark Mode**, nawiązujące wizualnie do tematyki filmu.
 
 Zastosowano:
 
-progressive disclosure,
-dynamiczne tooltipy,
-dynamiczne tytuły wizualizacji,
-filtrowanie według franczyz,
-przejście od danych zagregowanych do szczegółowych,
-spójną kolorystykę poszczególnych franczyz.
+- progressive disclosure
+- dynamiczne tooltipy
+- dynamiczne tytuły wizualizacji
+- filtrowanie według franczyz
+- przejście od danych zagregowanych do szczegółowych
+- spójną kolorystykę poszczególnych franczyz
 
 Celem było stworzenie raportu, który nie tylko prezentuje dane, ale prowadzi użytkownika przez kolejne pytania analityczne.
 
-Technologie
-Power BI
-Power Query
-DAX
-Star Schema
-Data Cleaning & Transformation
-Data Modeling
-Data Visualization
-Data Analysis
-Data Storytelling
-Umiejętności zaprezentowane w projekcie
+---
+
+## Technologie
+
+- Power BI
+- Power Query
+- DAX
+- Star Schema
+- Data Cleaning & Transformation
+- Data Modeling
+- Data Visualization
+- Data Analysis
+- Data Storytelling
+
+---
+
+## Umiejętności zaprezentowane w projekcie
 
 Projekt pokazuje praktyczne wykorzystanie:
 
-przygotowania i czyszczenia danych,
-łączenia danych z różnych źródeł,
-transformacji danych w Power Query,
-projektowania modelu Star Schema,
-tworzenia miar DAX,
-analizy cenowej,
-analizy danych produktowych,
-analizy zależności między zmiennymi,
-wizualizacji danych,
-UX i data storytelling,
-formułowania pytań biznesowych na podstawie danych.
-Struktura repozytorium
+- przygotowania i czyszczenia danych
+- łączenia danych z różnych źródeł
+- transformacji danych w Power Query
+- projektowania modelu Star Schema
+- tworzenia miar DAX
+- analizy cenowej
+- analizy danych produktowych
+- analizy zależności między zmiennymi
+- wizualizacji danych
+- UX i data storytelling
+- formułowania pytań biznesowych na podstawie danych
+
+---
+
+## Struktura repozytorium
+
+```text
 lego-franchise-value-analysis/
 ├── README.md
 ├── dashboard/
@@ -351,19 +377,27 @@ lego-franchise-value-analysis/
     ├── overview.png
     ├── analysis.png
     └── tooltip.png
-Dane
+```
+
+## Dane
 
 Dane źródłowe powinny być udostępniane w repozytorium wyłącznie wtedy, gdy pozwala na to ich licencja.
 
 W przypadku ograniczeń licencyjnych repozytorium zawiera przede wszystkim plik Power BI oraz materiały prezentujące wyniki analizy.
 
-Cel projektu
+## Cel projektu
 
 Projekt został stworzony jako element portfolio analitycznego w celu zaprezentowania praktycznych umiejętności w zakresie:
 
-Power BI + Power Query + DAX + Data Analysis + Data Storytelling
+- Power BI
+- Power Query
+- DAX
+- Data Analysis
+- Data Storytelling
 
 Najważniejszym elementem projektu jest wykorzystanie danych do sprawdzenia, czy obecność i popularność filmowych franczyz wiąże się z różnicami w cenach zestawów LEGO oraz cenie pojedynczego klocka.
 
-Mateusz
-Aspiring Data Analyst | Power BI | SQL | Python | Excel
+---
+
+**Mateusz**  
+*Aspiring Data Analyst | Power BI | SQL | Python | Excel*
