@@ -1,4 +1,5 @@
 # power-bi-lego-franchise-value-analysis
+
 Power BI analysis of LEGO licensed sets, price per set, price per piece and the relationship between movie franchises, Box Office performance and LEGO pricing.
 
 ## LEGO, filmy i cena klocka – czy filmowe uniwersum wpływa na ceny LEGO?
@@ -79,7 +80,7 @@ Raport pozwala przechodzić od analizy całych franczyz i ich wyników Box Offic
 Jednym z podstawowych elementów analizy jest średnia cena zestawów LEGO.
 
 ```DAX
-Średnia_Cena_Zestawu =
+Średnia Cena Pudełka =
 AVERAGE(fact_Lego[Retail_Price_USD])
 
 Pozwala to porównywać poziom cenowy poszczególnych franczyz oraz obserwować zmiany cen w czasie.
@@ -88,7 +89,7 @@ Pozwala to porównywać poziom cenowy poszczególnych franczyz oraz obserwować 
 
 Jednym z najważniejszych wskaźników projektu jest Price per Piece (PPP).
 
-Cena_Za_Klocek_PPP =
+Cena za Klocka =
 DIVIDE(
     SUM(fact_Lego[Retail_Price_USD]),
     SUM(fact_Lego[Piece_Count]),
@@ -202,16 +203,19 @@ DAX
 Projekt wykorzystuje DAX zarówno do analizy danych, jak i budowy interaktywnego interfejsu raportu.
 
 Podstawowe miary
-Średnia_Cena_Zestawu =
+Średnia Cena Pudełka =
 AVERAGE(fact_Lego[Retail_Price_USD])
-Cena_Za_Klocek_PPP =
+
+Cena za Klocka =
 DIVIDE(
     SUM(fact_Lego[Retail_Price_USD]),
     SUM(fact_Lego[Piece_Count]),
     0
 )
+
 Koszt_Wszystkich_Zestawow =
 SUM(fact_Lego[Retail_Price_USD])
+
 Srednia_Liczba_Klockow =
 AVERAGE(fact_Lego[Piece_Count])
 Dynamiczny UX
@@ -363,8 +367,3 @@ Najważniejszym elementem projektu jest wykorzystanie danych do sprawdzenia, czy
 
 Mateusz
 Aspiring Data Analyst | Power BI | SQL | Python | Excel
-"""
-
-path = Path("/mnt/data/README.md")
-path.write_text(readme, encoding="utf-8")
-print(path)
