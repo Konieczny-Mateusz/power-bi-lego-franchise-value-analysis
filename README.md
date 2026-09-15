@@ -174,6 +174,8 @@ fact_Lego[Nazwa_Zestawu]
 
 Dzięki temu zestawy z różnych lat mogą być analizowane jako oddzielne produkty.
 
+![Transformacje w Power Query](images/Power-Querry.png)
+
 ## Model danych
 
 Projekt wykorzystuje model typu **Star Schema**.
@@ -201,6 +203,8 @@ Relacje zostały zbudowane w modelu:
 **1:N, single direction**
 
 Model umożliwia analizę danych zarówno na poziomie pojedynczych zestawów, jak i całych franczyz.
+
+![Model Gwiazdy - Star Schema](images/Star-Schema.png)
 
 ## DAX
 
@@ -253,6 +257,9 @@ IF(
 
 Dzięki temu użytkownik może zachować kontekst wybranej franczyzy podczas przechodzenia pomiędzy poszczególnymi poziomami analizy.
 
+![Dynamiczny Tooltip Box Office](images/Tooltip-1.png)
+![Strona Główna - Starcie Tytanów](images/Overview-1-tooltip-1.png)
+
 ---
 
 ## Kluczowe obserwacje
@@ -265,6 +272,8 @@ Mniejsze zestawy mogą charakteryzować się stosunkowo wysoką ceną pojedyncze
 
 Z kolei większe zestawy zawierające tysiące standardowych elementów mogą mieć niższy Price per Piece.
 
+![Analiza Paradoksu Klocka](images/Overview-2-tooltip-2.png)
+
 ### Premiumizacja i zestawy kolekcjonerskie
 
 Analiza cen w czasie wskazuje na okresy wyraźnego wzrostu cen zestawów.
@@ -272,6 +281,8 @@ Analiza cen w czasie wskazuje na okresy wyraźnego wzrostu cen zestawów.
 Jednym z przykładów jest rozwój dużych, kolekcjonerskich zestawów związanych między innymi z serią Ultimate Collector Series.
 
 Może to wskazywać na zmianę charakteru części oferty LEGO – od produktów przeznaczonych przede wszystkim do zabawy w kierunku produktów kolekcjonerskich i premium.
+
+![Ściana Luksusu i Premiumizacja](images/Overview-3.png)
 
 ### Wartość licencji filmowej
 
@@ -372,11 +383,18 @@ Projekt pokazuje praktyczne wykorzystanie:
 lego-franchise-value-analysis/
 ├── README.md
 ├── dashboard/
-│   └── LEGO_Franchise_Analysis.pbix
-└── screenshots/
-    ├── overview.png
-    ├── analysis.png
-    └── tooltip.png
+│   └── Klocki z Hollywood Wojna Franczyz.pbix
+└── images/
+    ├── Overview-1-tooltip-1.png
+    ├── Overview-1.png
+    ├── Overview-2-tooltip-2.png
+    ├── Overview-2.png
+    ├── Overview-3-Filtered.png
+    ├── Overview-3.png
+    ├── Power-Querry.png
+    ├── Star-Schema.png
+    ├── Tooltip-1.png
+    └── Tooltip-2.png
 ```
 
 ## Dane
